@@ -6,7 +6,8 @@ namespace cosmos.Data;
 public class CosmosContext : DbContext
 {
     public DbSet<Detail>? Details { get; set; }
-   
+    public DbSet<Template>? Templates { get; set; }
+    public DbSet<Webflow>? Webflows { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -21,6 +22,12 @@ public class CosmosContext : DbContext
         // configuring detail
         modelBuilder.Entity<Detail>()
                 .ToContainer("Details") // ToContainer
+                .HasPartitionKey(e => e.Id); // Partition Key
+        modelBuilder.Entity<Template>()
+                .ToContainer("Templates") // ToContainer
+                .HasPartitionKey(e => e.Id); // Partition Key
+        modelBuilder.Entity<Webflow>()
+                .ToContainer("Webflows") // ToContainer
                 .HasPartitionKey(e => e.Id); // Partition Key
 
     }
